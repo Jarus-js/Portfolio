@@ -18,9 +18,13 @@ mongoose.connect(
 );
 
 //APP setup
+app.get('/',(req,res)=>{
+  res.json({msg:'Hello World Form api'})
+})
 //Middlewares - Incoming req to Server are passed to middleware
 // parse application/x-www-form-urlencoded
 app.use(express.json({ extended: false }));
+
 
 app.use("/api/auth", require("./routes/api/auth"));
 app.use("/api/posts", require("./routes/api/posts"));
