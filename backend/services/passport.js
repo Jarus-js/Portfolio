@@ -10,7 +10,7 @@ const localStrategy = require("passport-local");
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromHeader("authorization"),
   //Telling Jwt Strategy whenever req comes in & we want passport to handle it & look at req header
-  secretOrKey: configSec.secretKey
+  secretOrKey: configSec
 };
 
 //Create Jwt Strategy to verify Token & access protected route
