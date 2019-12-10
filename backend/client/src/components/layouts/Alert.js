@@ -25,3 +25,5 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps)(Alert);
+
+

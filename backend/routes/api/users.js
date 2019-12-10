@@ -10,21 +10,17 @@ const User = require("../../models/User");
 
 const passport = require("passport");
 const passportService = require("../../services/passport");
-
-//Auth middleware for login
+//verify token with jwt strat i.e if user.id in db match with user.id in token
+const requireAuth = passport.authenticate("jwt", { session: false });
+//Verify email & password with local strat
 const requireLogin = passport.authenticate("local", { session: false });
 
-//Generating jwtoken => identifying piece of info created including user id & iat
+//Generating jwtoken => identifying piece of info created including user id & secret
 const tokenForUser = user => {
   const timestamp = new Date().getTime();
   //payload
   return jwt.encode({ sub: user.id, iat: timestamp }, keys.secretKey);
 };
-
-// => /api/users
-router.get("/", (req, res) => {
-  res.send("Users");
-});
 
 // => /api/users/register
 router.post(
@@ -83,9 +79,18 @@ router.post(
 router.post(
   "/login",
 
-  requireLogin,
+  requireLogin, //verifying email & password
   (req, res) => {
-    res.send({ token: tokenForUser(req.user) });
+    console.log("login", req.user);
+    res.send({
+      token: tokenForUser(req.user),
+      user: {
+        id: req.user.id,
+        name: req.user.name,
+        email: req.user.email,
+        avatar: req.user.avatar
+      }
+    });
   }
 );
 

@@ -5,8 +5,9 @@ import { connect } from "react-redux";
 
 //action creator
 import { setAlert } from "../../actions/alertAction";
+import { register } from "../../actions/authAction";
 
-const Register = ({ setAlert }) => {
+const Register = ({ setAlert, register }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -25,9 +26,9 @@ const Register = ({ setAlert }) => {
   const onSubmit = e => {
     e.preventDefault();
     if (password !== password2) {
-      return setAlert("Password donot match", "danger");
+      return setAlert("Password donot match", "danger"); //calling action that updates state
     }
-    console.log(formData);
+    register({ name, email, password });
   };
   //console.log("action", props);
   return (
@@ -44,7 +45,6 @@ const Register = ({ setAlert }) => {
             name="name"
             value={name}
             onChange={onChange}
-            required
           />
         </div>
         <div className="form-group">
@@ -67,7 +67,6 @@ const Register = ({ setAlert }) => {
             name="password"
             value={password}
             onChange={onChange}
-            minLength="5"
           />
         </div>
         <div className="form-group">
@@ -77,7 +76,6 @@ const Register = ({ setAlert }) => {
             name="password2"
             value={password2}
             onChange={onChange}
-            minLength="5"
           />
         </div>
         <input type="submit" className="btn btn-primary" value="Register" />
@@ -88,4 +86,4 @@ const Register = ({ setAlert }) => {
     </>
   );
 };
-export default connect(null, { setAlert })(Register);
+export default connect(null, { setAlert, register })(Register);
